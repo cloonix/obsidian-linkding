@@ -86,10 +86,17 @@ export default class LinkdingPlugin extends Plugin {
 			return;
 		}
 
-		const list = container.createEl('ul', { cls: 'linkding-bookmarks-list' });
+		// Sort bookmarks alphabetically by title
+		const sortedBookmarks = [...bookmarks].sort((a, b) => {
+			const titleA = (a.title || a.url).toLowerCase();
+			const titleB = (b.title || b.url).toLowerCase();
+			return titleA.localeCompare(titleB);
+		});
+
+		const listContainer = container.createEl('div', { cls: 'linkding-bookmarks-list' });
 		
-		bookmarks.forEach(bookmark => {
-			const item = list.createEl('li', { cls: 'linkding-bookmark-item' });
+		sortedBookmarks.forEach(bookmark => {
+			const item = listContainer.createEl('div', { cls: 'linkding-bookmark-item' });
 			
 			const link = item.createEl('a', {
 				href: bookmark.url,
@@ -98,17 +105,30 @@ export default class LinkdingPlugin extends Plugin {
 			});
 			link.setAttr('target', '_blank');
 			
-			if (bookmark.description) {
-				item.createEl('p', { 
-					text: bookmark.description,
-					cls: 'linkding-bookmark-description'
-				});
-			}
-			
-			if (bookmark.tag_names && bookmark.tag_names.length > 0) {
-				const tagContainer = item.createEl('div', { cls: 'linkding-bookmark-tags' });
+			// Create description with inline tag labels
+			if (bookmark.description && bookmark.description.trim()) {
+				// Limit description to 200 characters
+				const truncatedDescription = bookmark.description.length > 200 
+					? bookmark.description.substring(0, 200) + '...'
+					: bookmark.description;
+				
+				const descContainer = item.createEl('div', { cls: 'linkding-bookmark-description' });
+				descContainer.appendText(truncatedDescription);
+				
+				// Add tag labels inline at the end
+				if (bookmark.tag_names && bookmark.tag_names.length > 0) {
+					bookmark.tag_names.forEach((tag: string) => {
+						descContainer.createEl('span', {
+							text: tag,
+							cls: 'linkding-bookmark-tag'
+						});
+					});
+				}
+			} else if (bookmark.tag_names && bookmark.tag_names.length > 0) {
+				// If no description, just show tags
+				const descContainer = item.createEl('div', { cls: 'linkding-bookmark-description' });
 				bookmark.tag_names.forEach((tag: string) => {
-					tagContainer.createEl('span', {
+					descContainer.createEl('span', {
 						text: tag,
 						cls: 'linkding-bookmark-tag'
 					});
