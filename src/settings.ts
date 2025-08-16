@@ -29,7 +29,7 @@ export class LinkdingSettingsTab extends PluginSettingTab {
 
 		new Setting(containerEl)
 			.setName('API Key')
-			.setDesc('Your Linkding API key (found in your Linkding settings)')
+			.setDesc('Your Linkding integrations API key (found in your Linkding settings)')
 			.addText(text => text
 				.setPlaceholder('Enter your API key')
 				.setValue(this.plugin.settings.apiKey)
@@ -63,24 +63,11 @@ export class LinkdingSettingsTab extends PluginSettingTab {
 		containerEl.createEl('h3', { text: 'Usage' });
 		
 		const usageEl = containerEl.createEl('div');
-		usageEl.createEl('p', { text: 'There are two ways to display bookmarks in your notes:' });
+		usageEl.createEl('p', { text: 'Just use a linkding codeblock, containing your tag' });
 		
-		const methodsList = usageEl.createEl('ol');
-		
-		const method1 = methodsList.createEl('li');
-		method1.createEl('strong', { text: 'Code blocks:' });
-		method1.createEl('br');
-		method1.createEl('code', { text: '```linkding\nyour-tag-name\n```' });
-		
-		const method2 = methodsList.createEl('li');
-		method2.createEl('strong', { text: 'Frontmatter:' });
-		method2.createEl('br');
-		const frontmatterExample = method2.createEl('pre');
-		frontmatterExample.textContent = `---
-linkding_tags: 
-  - tag1
-  - tag2
----`;
+		const codeBlock = usageEl.createEl('pre');
+		codeBlock.textContent = '```linkding\nyour-tag-name\n```';
+
 	}
 
 	private showTestResult(container: HTMLElement, message: string, type: 'success' | 'error') {
