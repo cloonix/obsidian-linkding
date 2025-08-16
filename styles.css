@@ -48,8 +48,10 @@
 }
 
 .linkding-bookmark-tags {
-	display: inline;
-	margin-left: 0.3em;
+	display: flex;
+	flex-wrap: wrap;
+	gap: 0.25em;
+	margin-top: 0.3em;
 }
 
 .linkding-bookmark-tag {
@@ -62,8 +64,6 @@
 	font-weight: 500;
 	white-space: nowrap;
 	border: 1px solid var(--background-modifier-border-hover);
-	margin-left: 0.25em;
-	vertical-align: baseline;
 }
 
 .linkding-error {

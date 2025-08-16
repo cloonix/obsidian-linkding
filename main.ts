@@ -105,30 +105,24 @@ export default class LinkdingPlugin extends Plugin {
 			});
 			link.setAttr('target', '_blank');
 			
-			// Create description with inline tag labels
+			// Create description
 			if (bookmark.description && bookmark.description.trim()) {
 				// Limit description to 200 characters
 				const truncatedDescription = bookmark.description.length > 200 
 					? bookmark.description.substring(0, 200) + '...'
 					: bookmark.description;
 				
-				const descContainer = item.createEl('div', { cls: 'linkding-bookmark-description' });
-				descContainer.appendText(truncatedDescription);
-				
-				// Add tag labels inline at the end
-				if (bookmark.tag_names && bookmark.tag_names.length > 0) {
-					bookmark.tag_names.forEach((tag: string) => {
-						descContainer.createEl('span', {
-							text: tag,
-							cls: 'linkding-bookmark-tag'
-						});
-					});
-				}
-			} else if (bookmark.tag_names && bookmark.tag_names.length > 0) {
-				// If no description, just show tags
-				const descContainer = item.createEl('div', { cls: 'linkding-bookmark-description' });
+				item.createEl('div', { 
+					text: truncatedDescription,
+					cls: 'linkding-bookmark-description' 
+				});
+			}
+			
+			// Add tag labels on a new line
+			if (bookmark.tag_names && bookmark.tag_names.length > 0) {
+				const tagsContainer = item.createEl('div', { cls: 'linkding-bookmark-tags' });
 				bookmark.tag_names.forEach((tag: string) => {
-					descContainer.createEl('span', {
+					tagsContainer.createEl('span', {
 						text: tag,
 						cls: 'linkding-bookmark-tag'
 					});
