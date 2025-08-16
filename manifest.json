@@ -1,11 +1,11 @@
 {
   "id": "linkding-bookmarks",
   "name": "Linkding Bookmarks",
-  "version": "1.0.0",
+  "version": "0.1.1",
   "minAppVersion": "0.15.0",
   "description": "Display bookmarks from your Linkding collection in Obsidian notes",
-  "author": "Your Name",
-  "authorUrl": "",
-  "fundingUrl": "",
+  "author": "Claus Malter",
+  "authorUrl": "https://github.com/cloonix",
+  "fundingUrl": "https://github.com/sponsors/cloonix",
   "isDesktopOnly": false
 }
