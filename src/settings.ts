@@ -63,10 +63,10 @@ export class LinkdingSettingsTab extends PluginSettingTab {
 		containerEl.createEl('h3', { text: 'Usage' });
 		
 		const usageEl = containerEl.createEl('div');
-		usageEl.createEl('p', { text: 'Just use a linkding codeblock, containing your tag' });
+		usageEl.createEl('p', { text: 'Just use a linkding codeblock, containing your tag(s)' });
 		
 		const codeBlock = usageEl.createEl('pre');
-		codeBlock.textContent = '```linkding\nyour-tag-name\n```';
+		codeBlock.textContent = '```linkding\nyour-tag-name [, another-tag-name]\n```';
 
 	}
 

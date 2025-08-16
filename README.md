@@ -21,20 +21,28 @@ Display bookmarks from your [Linkding](https://github.com/sissbruecker/linkding)
 
 1. Open your Linkding instance
 2. Go to Settings
-3. Find the "API" section
+3. Find the "Integrations" section
 4. Copy your API key
 
 ## Usage
 
-Use code blocks to display bookmarks for a specific tag:
+Use code blocks to display bookmarks for one or more tags:
 
+### Single Tag
 \`\`\`linkding
-your-tag-name
+programming
 \`\`\`
+
+### Multiple Tags (AND search)
+\`\`\`linkding
+github, linkding
+\`\`\`
+
+This will find bookmarks that have BOTH the "github" AND "linkding" tags.
 
 ## API Compatibility
 
-This plugin is compatible with Linkding API v1. It has been tested with Linkding version 1.19.0 and newer.
+This plugin is compatible with Linkding API v1. It has been tested with Linkding version 1.42.0.
 
 ## Support
 

@@ -33,14 +33,21 @@ export default class LinkdingPlugin extends Plugin {
 	}
 
 	private async renderLinkdingBlock(source: string, el: HTMLElement, ctx: any) {
-		const tag = source.trim();
-		if (!tag) {
-			el.createEl('p', { text: 'Please specify a tag for Linkding bookmarks' });
+		const input = source.trim();
+		if (!input) {
+			el.createEl('p', { text: 'Please specify tag(s) for Linkding bookmarks' });
+			return;
+		}
+
+		// Parse comma-separated tags
+		const tags = input.split(',').map(tag => tag.trim()).filter(tag => tag.length > 0);
+		if (tags.length === 0) {
+			el.createEl('p', { text: 'Please specify valid tag(s) for Linkding bookmarks' });
 			return;
 		}
 
 		try {
-			const bookmarks = await this.linkdingService.getBookmarksByTag(tag);
+			const bookmarks = await this.linkdingService.getBookmarksByTags(tags);
 			this.renderBookmarks(bookmarks, el);
 		} catch (error) {
 			el.createEl('p', { 

@@ -34,6 +34,25 @@ export class LinkdingService {
 		return data.results;
 	}
 
+	async getBookmarksByTags(tags: string[]): Promise<LinkdingBookmark[]> {
+		if (!this.settings.apiUrl || !this.settings.apiKey) {
+			throw new Error('API URL and API Key must be configured in settings');
+		}
+
+		if (tags.length === 0) {
+			return [];
+		}
+
+		if (tags.length === 1) {
+			return this.getBookmarksByTag(tags[0]);
+		}
+
+		// For multiple tags, build a query with AND logic: #tag1 #tag2 #tag3
+		const tagQuery = tags.map(tag => `%23${encodeURIComponent(tag)}`).join('%20');
+		const data = await this.makeRequest(`/api/bookmarks/?q=${tagQuery}&limit=100`);
+		return data.results;
+	}
+
 	async getAllBookmarks(limit: number = 100): Promise<LinkdingBookmark[]> {
 		if (!this.settings.apiUrl || !this.settings.apiKey) {
 			throw new Error('API URL and API Key must be configured in settings');
