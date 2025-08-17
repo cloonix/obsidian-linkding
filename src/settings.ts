@@ -30,12 +30,28 @@ export class LinkdingSettingsTab extends PluginSettingTab {
 		new Setting(containerEl)
 			.setName('API Key')
 			.setDesc('Your Linkding integrations API key (found in your Linkding settings)')
+			.addText(text => {
+				text.setPlaceholder('Enter your API key')
+					.setValue(this.plugin.settings.apiKey)
+					.onChange(async (value) => {
+						this.plugin.settings.apiKey = value;
+						await this.plugin.saveSettings();
+					});
+				text.inputEl.type = 'password';
+			});
+
+		new Setting(containerEl)
+			.setName('Description Length')
+			.setDesc('Maximum number of characters to show in bookmark descriptions (0 = no limit)')
 			.addText(text => text
-				.setPlaceholder('Enter your API key')
-				.setValue(this.plugin.settings.apiKey)
+				.setPlaceholder('200')
+				.setValue(this.plugin.settings.descriptionLength.toString())
 				.onChange(async (value) => {
-					this.plugin.settings.apiKey = value;
-					await this.plugin.saveSettings();
+					const numValue = parseInt(value);
+					if (!isNaN(numValue) && numValue >= 0) {
+						this.plugin.settings.descriptionLength = numValue;
+						await this.plugin.saveSettings();
+					}
 				}));
 
 		const testContainer = containerEl.createEl('div', { cls: 'linkding-test-connection' });
@@ -63,10 +79,15 @@ export class LinkdingSettingsTab extends PluginSettingTab {
 		containerEl.createEl('h3', { text: 'Usage' });
 		
 		const usageEl = containerEl.createEl('div');
-		usageEl.createEl('p', { text: 'Just use a linkding codeblock, containing your tag(s)' });
+		usageEl.createEl('p', { text: 'Use a linkding codeblock with tags or text search:' });
 		
-		const codeBlock = usageEl.createEl('pre');
-		codeBlock.textContent = '```linkding\nyour-tag-name [, another-tag-name]\n```';
+		usageEl.createEl('h4', { text: 'Tag Search:' });
+		const tagCodeBlock = usageEl.createEl('pre');
+		tagCodeBlock.textContent = '```linkding\nyour-tag-name [, another-tag-name]\n```';
+		
+		usageEl.createEl('h4', { text: 'Text Search:' });
+		const searchCodeBlock = usageEl.createEl('pre');
+		searchCodeBlock.textContent = '```linkding\nsearch: your search term\n```';
 
 	}
 

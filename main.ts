@@ -35,19 +35,31 @@ export default class LinkdingPlugin extends Plugin {
 	private async renderLinkdingBlock(source: string, el: HTMLElement, ctx: any) {
 		const input = source.trim();
 		if (!input) {
-			el.createEl('p', { text: 'Please specify tag(s) for Linkding bookmarks' });
-			return;
-		}
-
-		// Parse comma-separated tags
-		const tags = input.split(',').map(tag => tag.trim()).filter(tag => tag.length > 0);
-		if (tags.length === 0) {
-			el.createEl('p', { text: 'Please specify valid tag(s) for Linkding bookmarks' });
+			el.createEl('p', { text: 'Please specify tag(s) or search term for Linkding bookmarks' });
 			return;
 		}
 
 		try {
-			const bookmarks = await this.linkdingService.getBookmarksByTags(tags);
+			let bookmarks: any[];
+			
+			// Check if input starts with 'search:' for text search
+			if (input.toLowerCase().startsWith('search:')) {
+				const searchTerm = input.substring(7).trim();
+				if (!searchTerm) {
+					el.createEl('p', { text: 'Please specify a search term after "search:"' });
+					return;
+				}
+				bookmarks = await this.linkdingService.searchBookmarks(searchTerm);
+			} else {
+				// Parse comma-separated tags
+				const tags = input.split(',').map(tag => tag.trim()).filter(tag => tag.length > 0);
+				if (tags.length === 0) {
+					el.createEl('p', { text: 'Please specify valid tag(s) for Linkding bookmarks' });
+					return;
+				}
+				bookmarks = await this.linkdingService.getBookmarksByTags(tags);
+			}
+			
 			this.renderBookmarks(bookmarks, el);
 		} catch (error) {
 			el.createEl('p', { 
@@ -107,10 +119,11 @@ export default class LinkdingPlugin extends Plugin {
 			
 			// Create description
 			if (bookmark.description && bookmark.description.trim()) {
-				// Limit description to 200 characters
-				const truncatedDescription = bookmark.description.length > 200 
-					? bookmark.description.substring(0, 200) + '...'
-					: bookmark.description;
+				// Use configurable description length
+				let truncatedDescription = bookmark.description;
+				if (this.settings.descriptionLength > 0 && bookmark.description.length > this.settings.descriptionLength) {
+					truncatedDescription = bookmark.description.substring(0, this.settings.descriptionLength) + '...';
+				}
 				
 				item.createEl('div', { 
 					text: truncatedDescription,

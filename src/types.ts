@@ -1,11 +1,13 @@
 export interface LinkdingSettings {
 	apiUrl: string;
 	apiKey: string;
+	descriptionLength: number;
 }
 
 export const DEFAULT_SETTINGS: LinkdingSettings = {
 	apiUrl: 'http://localhost:9090',
-	apiKey: ''
+	apiKey: '',
+	descriptionLength: 200
 };
 
 export interface LinkdingBookmark {

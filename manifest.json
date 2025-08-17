@@ -1,7 +1,7 @@
 {
   "id": "linkding-bookmarks",
   "name": "Linkding Bookmarks",
-  "version": "0.3.2",
+  "version": "0.3.3",
   "minAppVersion": "v1.8.10",
   "description": "Display bookmarks from your Linkding collection in Obsidian notes",
   "author": "Claus Malter",

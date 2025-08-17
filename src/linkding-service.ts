@@ -62,6 +62,20 @@ export class LinkdingService {
 		return data.results;
 	}
 
+	async searchBookmarks(searchTerm: string): Promise<LinkdingBookmark[]> {
+		if (!this.settings.apiUrl || !this.settings.apiKey) {
+			throw new Error('API URL and API Key must be configured in settings');
+		}
+
+		if (!searchTerm.trim()) {
+			return [];
+		}
+
+		const encodedSearchTerm = encodeURIComponent(searchTerm);
+		const data = await this.makeRequest(`/api/bookmarks/?q=${encodedSearchTerm}&limit=100`);
+		return data.results;
+	}
+
 	private async makeRequest(endpoint: string): Promise<LinkdingApiResponse> {
 		const url = this.normalizeUrl(this.settings.apiUrl) + endpoint;
 		
