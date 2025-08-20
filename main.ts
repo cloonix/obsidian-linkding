@@ -35,31 +35,18 @@ export default class LinkdingPlugin extends Plugin {
 	private async renderLinkdingBlock(source: string, el: HTMLElement, ctx: any) {
 		const input = source.trim();
 		if (!input) {
-			el.createEl('p', { text: 'Please specify tag(s) or search term for Linkding bookmarks' });
+			el.createEl('p', { text: 'Please specify #tags and/or search terms for Linkding bookmarks' });
 			return;
 		}
 
 		try {
-			let bookmarks: any[];
-			
-			// Check if input starts with 'search:' for text search
-			if (input.toLowerCase().startsWith('search:')) {
-				const searchTerm = input.substring(7).trim();
-				if (!searchTerm) {
-					el.createEl('p', { text: 'Please specify a search term after "search:"' });
-					return;
-				}
-				bookmarks = await this.linkdingService.searchBookmarks(searchTerm);
-			} else {
-				// Parse comma-separated tags
-				const tags = input.split(',').map(tag => tag.trim()).filter(tag => tag.length > 0);
-				if (tags.length === 0) {
-					el.createEl('p', { text: 'Please specify valid tag(s) for Linkding bookmarks' });
-					return;
-				}
-				bookmarks = await this.linkdingService.getBookmarksByTags(tags);
+			const parseResult = this.parseSearchInput(input);
+			if (!parseResult.tags && !parseResult.search) {
+				el.createEl('p', { text: 'Please specify #tags or search terms (e.g., "#javascript #react hooks tutorial")' });
+				return;
 			}
-			
+
+			const bookmarks = await this.linkdingService.searchBookmarks(parseResult.tags || [], parseResult.search || '');
 			this.renderBookmarks(bookmarks, el);
 		} catch (error) {
 			el.createEl('p', { 
@@ -67,6 +54,36 @@ export default class LinkdingPlugin extends Plugin {
 				cls: 'linkding-error'
 			});
 		}
+	}
+
+	private parseSearchInput(input: string): { tags?: string[], search?: string } {
+		const tags: string[] = [];
+		const searchWords: string[] = [];
+		
+		const words = input.split(/\s+/).filter(word => word.length > 0);
+		
+		for (const word of words) {
+			if (word.startsWith('#')) {
+				const tag = word.substring(1);
+				if (tag.length > 0) {
+					tags.push(tag);
+				}
+			} else {
+				searchWords.push(word);
+			}
+		}
+
+		const result: { tags?: string[], search?: string } = {};
+		
+		if (tags.length > 0) {
+			result.tags = tags;
+		}
+		
+		if (searchWords.length > 0) {
+			result.search = searchWords.join(' ');
+		}
+
+		return result;
 	}
 
 	private async processLinkdingFrontmatter(element: HTMLElement, context: any) {
@@ -81,7 +98,7 @@ export default class LinkdingPlugin extends Plugin {
 
 		for (const tag of tagArray) {
 			try {
-				const bookmarks = await this.linkdingService.getBookmarksByTag(tag);
+				const bookmarks = await this.linkdingService.searchBookmarks([tag]);
 				const container = element.createEl('div', { cls: 'linkding-bookmarks-container' });
 				container.createEl('h3', { text: `Linkding Bookmarks: ${tag}` });
 				this.renderBookmarks(bookmarks, container);
