@@ -1,57 +1,37 @@
 # Linkding Bookmarks Plugin for Obsidian
 
-Display bookmarks from your [Linkding](https://github.com/sissbruecker/linkding) collection directly in your Obsidian notes.
+Display bookmarks from your [Linkding](https://github.com/sissbruecker/linkding) collection directly in Obsidian notes.
 
-## Features
+## Setup
 
-- 🔗 Connect to your Linkding instance via API
-- 🏷️ Display bookmarks filtered by tags
-- 📝 Embed bookmarks using simple code blocks
-- ⚙️ Simple settings configuration
-- 🎨 Clean, theme-aware styling
-
-## Installation & Setup
-
-1. Enable the plugin in Obsidian
-2. Go to Settings → Linkding Bookmarks
-3. Configure your Linkding API URL and API key
-4. Test the connection to ensure everything works
-
-### Getting Your API Key
-
-1. Open your Linkding instance
-2. Go to Settings
-3. Find the "Integrations" section
-4. Copy your API key
+1. Go to Settings → Linkding Bookmarks
+2. Enter your Linkding API URL and API key
+3. Test connection
 
 ## Usage
 
-Use code blocks to display bookmarks for one or more tags:
+Use natural language syntax in linkding code blocks:
 
-### Single Tag
-\`\`\`linkding
-programming
-\`\`\`
+**Tags only:**
+```linkding
+#javascript #react
+```
 
-### Multiple Tags (AND search)
-\`\`\`linkding
-github, linkding
-\`\`\`
+**Search only:**
+```linkding
+hooks tutorial
+```
 
-This will find bookmarks that have BOTH the "github" AND "linkding" tags.
+**Combined:**
+```linkding
+#javascript #react hooks tutorial
+```
 
-## API Compatibility
+## Getting Your API Key
 
-This plugin is compatible with Linkding API v1. It has been tested with Linkding version 1.42.0.
-
-## Support
-
-If you encounter any issues, please check:
-
-1. Your Linkding instance is accessible from your device
-2. Your API key is correct and has proper permissions
-3. The tags you're querying exist in your Linkding collection
+1. Open Linkding → Settings → Integrations
+2. Copy your API key
 
 ## License
 
-MIT License
+MIT
