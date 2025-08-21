@@ -2,6 +2,15 @@
 
 Display bookmarks from your [Linkding](https://github.com/sissbruecker/linkding) collection directly in Obsidian notes.
 
+This plugin allows you to seamlessly integrate your Linkding bookmarks into your Obsidian workflow. Query bookmarks by tags, search terms, or both, and display them as formatted lists within your notes. Perfect for research notes, reference collections, and organizing related resources alongside your thoughts.
+
+**Key Features:**
+- **Flexible Querying**: Search by tags (#javascript), text ("hooks tutorial"), or combine both
+- **Smart Rendering**: Bookmarks display with titles, descriptions (truncated to configurable length), and tags
+- **Live Integration**: Fetches fresh bookmark data from your Linkding instance
+- **Clean Formatting**: Bookmarks are sorted alphabetically and styled to match Obsidian's aesthetic
+- **Easy Setup**: Simple API key configuration with connection testing
+
 ## Installation
 
 ### Via BRAT (Recommended)
