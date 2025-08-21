@@ -1,9 +1,9 @@
 {
 	"id": "linkding-bookmarks",
 	"name": "Linkding Bookmarks",
-	"version": "0.3.4",
+	"version": "1.0.0",
 	"minAppVersion": "v1.8.10",
-	"description": "Display bookmarks from your Linkding collection in Obsidian notes",
+	"description": "Query and display Linkding bookmarks by tags or search terms within your notes",
 	"author": "Claus Malter",
 	"authorUrl": "https://github.com/cloonix",
 	"fundingUrl": "https://github.com/sponsors/cloonix",
