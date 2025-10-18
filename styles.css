@@ -3,12 +3,13 @@
 	padding: 1em;
 	border: 1px solid var(--background-modifier-border);
 	border-radius: 8px;
-	background-color: var(--background-secondary);
+	/* Removed fixed background-color to respect theme */
 }
 
 .linkding-bookmarks-list {
 	padding: 0;
 	margin: 0;
+	margin-top: 0.75em;
 	padding-left: 0 !important;
 	margin-left: 0 !important;
 }
@@ -18,7 +19,7 @@
 	padding: 0;
 	margin-left: 0 !important;
 	padding-left: 0 !important;
-	background-color: var(--background-primary);
+	/* Removed fixed background-color to respect theme */
 	border-radius: 3px;
 }
 
@@ -29,13 +30,14 @@
 .linkding-bookmark-link {
 	display: block;
 	font-weight: 500;
-	color: var(--text-accent);
+	color: var(--link-color);
 	text-decoration: none;
 	margin-bottom: 0.2em;
 	line-height: 1.3;
 }
 
 .linkding-bookmark-link:hover {
+	color: var(--link-color-hover);
 	text-decoration: underline;
 }
 
