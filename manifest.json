@@ -1,7 +1,7 @@
 {
 	"id": "linkding",
 	"name": "linkding bookmarks",
-	"version": "1.0.0",
+	"version": "1.1.0",
 	"minAppVersion": "v1.8.10",
 	"description": "Query and display Linkding bookmarks by tags or search terms within your notes",
 	"author": "Claus Malter",

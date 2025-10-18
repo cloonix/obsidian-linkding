@@ -5,6 +5,7 @@ Display bookmarks from your [Linkding](https://github.com/sissbruecker/linkding)
 This plugin allows you to seamlessly integrate your Linkding bookmarks into your Obsidian workflow. Query bookmarks by tags, search terms, or both, and display them as formatted lists within your notes. Perfect for research notes, reference collections, and organizing related resources alongside your thoughts.
 
 **Key Features:**
+- **Powerful Search**: Full support for Linkding's search syntax with boolean operators (AND, OR, NOT), grouping, and phrases
 - **Flexible Querying**: Search by tags (#javascript), text ("hooks tutorial"), or combine both
 - **Smart Rendering**: Bookmarks display with titles, descriptions (truncated to configurable length), and tags
 - **Live Integration**: Fetches fresh bookmark data from your Linkding instance
@@ -32,22 +33,67 @@ This plugin allows you to seamlessly integrate your Linkding bookmarks into your
 
 ## Usage
 
-Use natural language syntax in linkding code blocks:
+Use Linkding's powerful search syntax in code blocks. The plugin supports the full Linkding search expression syntax including boolean operators and grouping.
 
-**Tags only:**
+### Basic Examples
+
+**Single tag:**
+```linkding
+#javascript
+```
+
+**Multiple tags (implicit AND):**
 ```linkding
 #javascript #react
 ```
 
-**Search only:**
+**Search terms:**
 ```linkding
 hooks tutorial
 ```
 
-**Combined:**
+**Combined tags and search:**
 ```linkding
-#javascript #react hooks tutorial
+#javascript hooks tutorial
 ```
+
+### Boolean Operators
+
+**AND operator (explicit):**
+```linkding
+#javascript and #react
+```
+
+**OR operator:**
+```linkding
+#javascript or #python
+```
+
+**NOT operator:**
+```linkding
+#programming not #javascript
+```
+
+**Complex queries with grouping:**
+```linkding
+#tutorial and (#javascript or #python)
+```
+
+**Phrases (exact match):**
+```linkding
+"react hooks" #tutorial
+```
+
+### Search Rules
+
+- **Case-insensitive**: All searches, tags, and operators are case-insensitive
+- **Implicit AND**: Multiple terms without an operator are combined with AND
+  - `#javascript #react` is the same as `#javascript and #react`
+- **Grouping**: Use parentheses `()` to control evaluation order
+- **Phrases**: Use quotes `"..."` to search for exact phrases
+- **Tag prefix**: Tags must start with `#`
+
+For more details, see the [Linkding search documentation](https://linkding.link/search/).
 
 ## Getting Your API Key
 

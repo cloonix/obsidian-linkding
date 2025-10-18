@@ -26,15 +26,20 @@ This is an Obsidian plugin that integrates with Linkding (a bookmark manager) to
 1. Plugin loads and initializes LinkdingService with saved settings
 2. Registers markdown code block processor for `linkding` blocks
 3. Registers markdown post-processor for frontmatter handling
-4. Code blocks parse comma-separated tags and fetch matching bookmarks
+4. Code blocks pass the entire search query to Linkding API (supports boolean operators)
 5. Bookmarks are rendered as sorted lists with titles, descriptions, and tags
 
 ### API Integration
 
 - Uses Obsidian's `requestUrl` for HTTP requests
 - Authenticates with Linkding using Token authentication
-- Supports single tag queries: `/api/bookmarks/?q=%23tag`
-- Supports multi-tag AND queries: `/api/bookmarks/?q=%23tag1%20%23tag2`
+- Passes search queries directly to Linkding's search API: `/api/bookmarks/?q={encodedQuery}`
+- Supports full Linkding search syntax including:
+  - Boolean operators: `and`, `or`, `not`
+  - Grouping with parentheses: `(#tag1 or #tag2)`
+  - Phrases: `"exact phrase"`
+  - Tags: `#tag`
+  - Mixed queries: `#tag and "search phrase"`
 - Results limited to 100 bookmarks per query
 
 ### Rendering Logic
