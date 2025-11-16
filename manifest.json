@@ -3,7 +3,7 @@
 	"name": "linkding bookmarks",
 	"version": "1.0.0",
 	"minAppVersion": "v1.8.10",
-	"description": "Query and display Linkding bookmarks by tags or search terms within your notes",
+	"description": "Query and display Linkding bookmarks by tags or search terms within your notes.",
 	"author": "Claus Malter",
 	"authorUrl": "https://github.com/cloonix",
 	"fundingUrl": "https://github.com/sponsors/cloonix",
