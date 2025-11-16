@@ -22,7 +22,6 @@ export class LinkdingSettingsTab extends PluginSettingTab {
       .setName('Linkding API URL')
       .setDesc('The URL of your linkding instance (for example, http://localhost:9090 or https://yourdomain.com)')
       .addText(text => text
-        .setPlaceholder('http://localhost:9090')
         .setValue(this.plugin.settings.apiUrl)
         .onChange(async (value) => {
           this.plugin.settings.apiUrl = value;
