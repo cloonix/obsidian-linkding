@@ -1,6 +1,6 @@
 {
   "name": "obsidian-linkding-bookmarks",
-  "version": "1.1.1",
+  "version": "1.1.2",
   "description": "Display bookmarks from your Linkding collection in Obsidian notes",
   "main": "main.js",
   "scripts": {
