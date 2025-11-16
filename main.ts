@@ -40,50 +40,14 @@ export default class LinkdingPlugin extends Plugin {
 		}
 
 		try {
-			const parseResult = this.parseSearchInput(input);
-			if (!parseResult.tags && !parseResult.search) {
-				el.createEl('p', { text: 'Please specify #tags or search terms (for example, "#JavaScript #React hooks tutorial")' });
-				return;
-			}
-
-			const bookmarks = await this.linkdingService.searchBookmarks(parseResult.tags || [], parseResult.search || '');
+			const bookmarks = await this.linkdingService.searchBookmarks(input);
 			this.renderBookmarks(bookmarks, el);
 		} catch (error) {
-			el.createEl('p', { 
+			el.createEl('p', {
 				text: `Error loading bookmarks: ${error.message}`,
 				cls: 'linkding-error'
 			});
 		}
-	}
-
-	private parseSearchInput(input: string): { tags?: string[], search?: string } {
-		const tags: string[] = [];
-		const searchWords: string[] = [];
-		
-		const words = input.split(/\s+/).filter(word => word.length > 0);
-		
-		for (const word of words) {
-			if (word.startsWith('#')) {
-				const tag = word.substring(1);
-				if (tag.length > 0) {
-					tags.push(tag);
-				}
-			} else {
-				searchWords.push(word);
-			}
-		}
-
-		const result: { tags?: string[], search?: string } = {};
-		
-		if (tags.length > 0) {
-			result.tags = tags;
-		}
-		
-		if (searchWords.length > 0) {
-			result.search = searchWords.join(' ');
-		}
-
-		return result;
 	}
 
 	private async processLinkdingFrontmatter(element: HTMLElement, context: MarkdownPostProcessorContext) {
@@ -98,7 +62,8 @@ export default class LinkdingPlugin extends Plugin {
 
 		for (const tag of tagArray) {
 			try {
-				const bookmarks = await this.linkdingService.searchBookmarks([tag]);
+				const query = `#${tag}`;
+				const bookmarks = await this.linkdingService.searchBookmarks(query);
 				const container = element.createEl('div', { cls: 'linkding-bookmarks-container' });
 				container.createEl('h3', { text: `Linkding bookmarks: ${tag}` });
 				this.renderBookmarks(bookmarks, container);

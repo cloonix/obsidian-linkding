@@ -24,28 +24,23 @@ export class LinkdingService {
 		}
 	}
 
-	async searchBookmarks(tags: string[] = [], searchTerm: string = ''): Promise<LinkdingBookmark[]> {
+	async searchBookmarks(query: string): Promise<LinkdingBookmark[]> {
 		if (!this.settings.apiUrl || !this.settings.apiKey) {
 			throw new Error('API URL and API Key must be configured in settings');
 		}
 
-		if (tags.length === 0 && !searchTerm.trim()) {
+		if (!query.trim()) {
 			return [];
 		}
 
-		const queryParts: string[] = [];
-
-		if (tags.length > 0) {
-			const tagQuery = tags.map(tag => `%23${encodeURIComponent(tag)}`).join('%20');
-			queryParts.push(tagQuery);
-		}
-
-		if (searchTerm.trim()) {
-			queryParts.push(encodeURIComponent(searchTerm));
-		}
-
-		const query = queryParts.join('%20');
-		const data = await this.makeRequest(`/api/bookmarks/?q=${query}&limit=100`);
+		// Encode the entire query string for the URL
+		// Linkding's search API natively supports:
+		// - Boolean operators: AND, OR, NOT
+		// - Grouping with parentheses: (#javascript OR #python) AND #tutorial
+		// - Phrase searches with quotes: "react hooks"
+		// - Tag searches with #: #javascript #react
+		const encodedQuery = encodeURIComponent(query);
+		const data = await this.makeRequest(`/api/bookmarks/?q=${encodedQuery}&limit=100`);
 		return data.results;
 	}
 
