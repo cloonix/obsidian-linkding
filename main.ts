@@ -35,14 +35,14 @@ export default class LinkdingPlugin extends Plugin {
 	private async renderLinkdingBlock(source: string, el: HTMLElement, ctx: MarkdownPostProcessorContext) {
 		const input = source.trim();
 		if (!input) {
-			el.createEl('p', { text: 'Please specify #tags and/or search terms for linkding bookmarks' });
+			el.createEl('p', { text: 'Please specify #tags and/or search terms for Linkding bookmarks' });
 			return;
 		}
 
 		try {
 			const parseResult = this.parseSearchInput(input);
 			if (!parseResult.tags && !parseResult.search) {
-				el.createEl('p', { text: 'Please specify #tags or search terms (for example, "#javascript #react hooks tutorial")' });
+				el.createEl('p', { text: 'Please specify #tags or search terms (for example, "#JavaScript #React hooks tutorial")' });
 				return;
 			}
 
@@ -100,7 +100,7 @@ export default class LinkdingPlugin extends Plugin {
 			try {
 				const bookmarks = await this.linkdingService.searchBookmarks([tag]);
 				const container = element.createEl('div', { cls: 'linkding-bookmarks-container' });
-				container.createEl('h3', { text: `Linkding Bookmarks: ${tag}` });
+				container.createEl('h3', { text: `Linkding bookmarks: ${tag}` });
 				this.renderBookmarks(bookmarks, container);
 			} catch (error) {
 				const errorEl = element.createEl('div', { cls: 'linkding-error' });

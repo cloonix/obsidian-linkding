@@ -15,12 +15,12 @@ export class LinkdingSettingsTab extends PluginSettingTab {
     containerEl.empty();
 
     new Setting(containerEl)
-      .setName('Linkding bookmarks settings')
+      .setName('Configuration')
       .setHeading();
 
     new Setting(containerEl)
       .setName('Linkding API URL')
-      .setDesc('The URL of your linkding instance (for example, http://localhost:9090 or https://yourdomain.com)')
+      .setDesc('The URL of your Linkding instance (for example, http://localhost:9090 or https://yourdomain.com)')
       .addText(text => text
         .setPlaceholder('http://localhost:9090')
         .setValue(this.plugin.settings.apiUrl)
@@ -31,7 +31,7 @@ export class LinkdingSettingsTab extends PluginSettingTab {
 
     new Setting(containerEl)
       .setName('API key')
-      .setDesc('Your linkding integrations API key (found in your linkding settings)')
+      .setDesc('Your Linkding integrations API key (found in your Linkding settings)')
       .addText(text => {
         text.setPlaceholder('Enter your API key')
           .setValue(this.plugin.settings.apiKey)
@@ -83,13 +83,13 @@ export class LinkdingSettingsTab extends PluginSettingTab {
       .setHeading();
 
     const usageEl = containerEl.createEl('div');
-    usageEl.createEl('p', { text: 'Use a linkding codeblock with #tags and/or search terms:' });
+    usageEl.createEl('p', { text: 'Use a Linkding codeblock with #tags and/or search terms:' });
 
     new Setting(usageEl)
       .setName('Examples')
       .setHeading();
 
-    usageEl.createEl('p', { text: 'Tags only (finds bookmarks with both javascript and react tags)' });
+    usageEl.createEl('p', { text: 'Tags only (finds bookmarks with both JavaScript and React tags)' });
     const example1 = usageEl.createEl('pre');
     example1.textContent = '```linkding\n#javascript #react\n```';
 
@@ -97,7 +97,7 @@ export class LinkdingSettingsTab extends PluginSettingTab {
     const example2 = usageEl.createEl('pre');
     example2.textContent = '```linkding\nhooks tutorial\n```';
 
-    usageEl.createEl('p', { text: 'Both tags and search (finds bookmarks tagged with javascript and react, containing "hooks" and "tutorial")' });
+    usageEl.createEl('p', { text: 'Both tags and search (finds bookmarks tagged with JavaScript and React, containing "hooks" and "tutorial")' });
     const example3 = usageEl.createEl('pre');
     example3.textContent = '```linkding\n#javascript #react hooks tutorial\n```';
 
