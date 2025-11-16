@@ -14,11 +14,13 @@ export class LinkdingSettingsTab extends PluginSettingTab {
 
     containerEl.empty();
 
-    containerEl.createEl('h2', { text: 'Linkding Bookmarks Settings' });
+    new Setting(containerEl)
+      .setName('Linkding bookmarks settings')
+      .setHeading();
 
     new Setting(containerEl)
       .setName('Linkding API URL')
-      .setDesc('The URL of your Linkding instance (e.g., http://localhost:9090 or https://yourdomain.com)')
+      .setDesc('The URL of your linkding instance (for example, http://localhost:9090 or https://yourdomain.com)')
       .addText(text => text
         .setPlaceholder('http://localhost:9090')
         .setValue(this.plugin.settings.apiUrl)
@@ -28,8 +30,8 @@ export class LinkdingSettingsTab extends PluginSettingTab {
         }));
 
     new Setting(containerEl)
-      .setName('API Key')
-      .setDesc('Your Linkding integrations API key (found in your Linkding settings)')
+      .setName('API key')
+      .setDesc('Your linkding integrations API key (found in your linkding settings)')
       .addText(text => {
         text.setPlaceholder('Enter your API key')
           .setValue(this.plugin.settings.apiKey)
@@ -41,7 +43,7 @@ export class LinkdingSettingsTab extends PluginSettingTab {
       });
 
     new Setting(containerEl)
-      .setName('Description Length')
+      .setName('Description length')
       .setDesc('Maximum number of characters to show in bookmark descriptions (0 = no limit)')
       .addText(text => text
         .setPlaceholder('200')
@@ -57,8 +59,8 @@ export class LinkdingSettingsTab extends PluginSettingTab {
     const testContainer = containerEl.createEl('div', { cls: 'linkding-test-connection' });
 
     new Setting(testContainer)
-      .setName('Test Connection')
-      .setDesc('Test your Linkding connection')
+      .setName('Test connection')
+      .setDesc('Test your linkding connection')
       .addButton(button => button
         .setButtonText('Test')
         .onClick(async () => {
@@ -76,12 +78,16 @@ export class LinkdingSettingsTab extends PluginSettingTab {
           }
         }));
 
-    containerEl.createEl('h3', { text: 'Usage' });
+    new Setting(containerEl)
+      .setName('Usage')
+      .setHeading();
 
     const usageEl = containerEl.createEl('div');
     usageEl.createEl('p', { text: 'Use a linkding codeblock with #tags and/or search terms:' });
 
-    usageEl.createEl('h4', { text: 'Examples:' });
+    new Setting(usageEl)
+      .setName('Examples')
+      .setHeading();
 
     usageEl.createEl('p', { text: 'Tags only (finds bookmarks with both javascript and react tags)' });
     const example1 = usageEl.createEl('pre');

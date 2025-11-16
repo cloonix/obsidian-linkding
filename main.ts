@@ -1,7 +1,7 @@
-import { Plugin, MarkdownView, MarkdownRenderer, Component } from 'obsidian';
+import { Plugin, MarkdownView, MarkdownPostProcessorContext } from 'obsidian';
 import { LinkdingSettingsTab } from './src/settings';
 import { LinkdingService } from './src/linkding-service';
-import { LinkdingSettings, DEFAULT_SETTINGS } from './src/types';
+import { LinkdingSettings, DEFAULT_SETTINGS, LinkdingBookmark } from './src/types';
 
 export default class LinkdingPlugin extends Plugin {
 	settings: LinkdingSettings;
@@ -15,11 +15,11 @@ export default class LinkdingPlugin extends Plugin {
 		this.addSettingTab(new LinkdingSettingsTab(this.app, this));
 
 		this.registerMarkdownCodeBlockProcessor('linkding', (source, el, ctx) => {
-			this.renderLinkdingBlock(source, el, ctx);
+			void this.renderLinkdingBlock(source, el, ctx);
 		});
 
 		this.registerMarkdownPostProcessor((element, context) => {
-			this.processLinkdingFrontmatter(element, context);
+			void this.processLinkdingFrontmatter(element, context);
 		});
 	}
 
@@ -32,17 +32,17 @@ export default class LinkdingPlugin extends Plugin {
 		this.linkdingService.updateSettings(this.settings);
 	}
 
-	private async renderLinkdingBlock(source: string, el: HTMLElement, ctx: any) {
+	private async renderLinkdingBlock(source: string, el: HTMLElement, ctx: MarkdownPostProcessorContext) {
 		const input = source.trim();
 		if (!input) {
-			el.createEl('p', { text: 'Please specify #tags and/or search terms for Linkding bookmarks' });
+			el.createEl('p', { text: 'Please specify #tags and/or search terms for linkding bookmarks' });
 			return;
 		}
 
 		try {
 			const parseResult = this.parseSearchInput(input);
 			if (!parseResult.tags && !parseResult.search) {
-				el.createEl('p', { text: 'Please specify #tags or search terms (e.g., "#javascript #react hooks tutorial")' });
+				el.createEl('p', { text: 'Please specify #tags or search terms (for example, "#javascript #react hooks tutorial")' });
 				return;
 			}
 
@@ -86,7 +86,7 @@ export default class LinkdingPlugin extends Plugin {
 		return result;
 	}
 
-	private async processLinkdingFrontmatter(element: HTMLElement, context: any) {
+	private async processLinkdingFrontmatter(element: HTMLElement, context: MarkdownPostProcessorContext) {
 		const view = this.app.workspace.getActiveViewOfType(MarkdownView);
 		if (!view) return;
 
@@ -109,7 +109,7 @@ export default class LinkdingPlugin extends Plugin {
 		}
 	}
 
-	private renderBookmarks(bookmarks: any[], container: HTMLElement) {
+	private renderBookmarks(bookmarks: LinkdingBookmark[], container: HTMLElement) {
 		if (bookmarks.length === 0) {
 			container.createEl('p', { text: 'No bookmarks found for this tag' });
 			return;
