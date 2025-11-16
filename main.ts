@@ -35,7 +35,7 @@ export default class LinkdingPlugin extends Plugin {
 	private async renderLinkdingBlock(source: string, el: HTMLElement, ctx: MarkdownPostProcessorContext) {
 		const input = source.trim();
 		if (!input) {
-			el.createEl('p', { text: 'Please specify #tags and/or search terms for Linkding bookmarks' });
+			el.createEl('p', { text: 'Please specify #tags and/or search terms for linkding bookmarks' });
 			return;
 		}
 
